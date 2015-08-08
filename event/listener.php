@@ -68,7 +68,7 @@ class listener implements EventSubscriberInterface
 
 		// Request the user option vars and add them to the data array
 		$event['data'] = array_merge($event['data'], array(
-			'user_colour'	=> utf8_normalize_nfc($this->request->variable('user_colour', $this->user->data['user_colour'], true)),
+			'user_colour'	=> $this->request->variable('user_colour', $this->user->data['user_colour'], true),
 		));
 
 		$this->template->assign_vars(array(
