@@ -1,0 +1,7 @@
+<!-- IF USE_USERNAMECOLOURCHANGER -->
+	<dl>
+		<dt><label for="user_colour">{L_COLOUR}{L_COLON}</label></dt>
+		<dd><input name="user_colour" type="text" id="user_colour" value="{COLOUR}" size="6" maxlength="6" class="inputbox autowidth" /><!-- IF COLOUR -->&nbsp;<span style="background-color: #{COLOUR}">&nbsp; &nbsp;</span><!-- ENDIF -->&nbsp;&nbsp;<span>[ <a href="#" id="color_palette_toggle">{L_COLOUR_SWATCH}</a> ]</span></dd>
+		<div id="color_palette_placeholder" style="display: none;" data-orientation="h" data-height="12" data-width="15" data-target="#user_colour"></div>
+	</dl>
+<!-- ENDIF -->

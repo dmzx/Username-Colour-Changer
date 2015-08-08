@@ -1,0 +1,29 @@
+{
+	"name": "dmzx/usernamecolourchanger",
+	"type": "phpbb-extension",
+	"description": "This extension allows users to change there username colour.",
+	"version": "1.0.0",
+	"time": "2015-06-22",
+	"keywords": ["phpbb", "extension", "usernamecolourchanger"],
+	"license": "GPL-2.0",
+	"authors": [
+		{
+			"name": "dmzx",
+			"homepage": "http://www.dmzx-web.net",
+			"email": "info@dmzx-web.net",
+			"role": "Extension Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.3.3"
+	},
+	"require-dev": {
+		"phpbb/epv": "dev-master"
+	},
+	"extra": {
+		"display-name": "Username Colour Changer",
+		"soft-require": {
+			"phpbb/phpbb": ">=3.1.4-RC1,<3.2.*@dev"
+		}
+	}
+}

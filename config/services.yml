@@ -1,0 +1,10 @@
+services:
+    dmzx.usernamecolourchanger.listener:
+        class: dmzx\usernamecolourchanger\event\listener
+        arguments:
+            - @request
+            - @template
+            - @user
+            - @auth
+        tags:
+            - { name: event.listener }
