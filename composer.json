@@ -24,6 +24,11 @@
 		"display-name": "Username Colour Changer",
 		"soft-require": {
 			"phpbb/phpbb": ">=3.1.4-RC1,<3.2.*@dev"
+		},
+		"version-check": {
+			"host": "www.dmzx-web.net",
+			"directory": "/versions",
+			"filename": "usernamecolourchanger_version.json"
 		}
 	}
 }
