@@ -30,7 +30,15 @@ class listener implements EventSubscriberInterface
 
 	/** @var \phpbb\auth\auth */
 	protected $auth;
-
+	
+	/**
+	 * Constructor
+	 *
+	 * @param \phpbb\request\request			$request
+	 * @param \phpbb\template\template			$template
+	 * @param \phpbb\user						$user
+	 * @param \phpbb\auth\auth					$auth
+	 */
 	public function __construct(\phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \phpbb\auth\auth $auth)
 	{
 		$this->request = $request;
@@ -72,8 +80,8 @@ class listener implements EventSubscriberInterface
 		));
 
 		$this->template->assign_vars(array(
-				'COLOUR'		=> $event['data']['user_colour'],
-				'USE_USERNAMECOLOURCHANGER'	 	=> $this->auth->acl_get('u_usernamecolourchanger_use'),
+			'COLOUR'		=> $event['data']['user_colour'],
+			'USE_USERNAMECOLOURCHANGER'	 	=> $this->auth->acl_get('u_usernamecolourchanger_use'),
 		));
 	}
 
@@ -86,17 +94,17 @@ class listener implements EventSubscriberInterface
 	*/
 	public function validate_profile_info($event)
 	{
-			$array = $event['error'];
+		$array = $event['error'];
 
-			if (!function_exists('validate_data'))
-			{
-				include($this->root_path . 'includes/functions_user.' . $this->php_ext);
-			}
-			$validate_array = array(
-				'user_colour'		=> array('string', true, 3, 6),
-			);
-			$error = validate_data($event['data'], $validate_array);
-			$event['error'] = array_merge($array, $error);
+		if (!function_exists('validate_data'))
+		{
+			include($this->root_path . 'includes/functions_user.' . $this->php_ext);
+		}
+		$validate_array = array(
+			'user_colour'		=> array('string', true, 3, 6),
+		);
+		$error = validate_data($event['data'], $validate_array);
+		$event['error'] = array_merge($array, $error);
 	}
 
 	/**
@@ -109,8 +117,7 @@ class listener implements EventSubscriberInterface
 	public function info_modify_sql_ary($event)
 	{
 		$event['sql_ary'] = array_merge($event['sql_ary'], array(
-				'user_colour' => $event['data']['user_colour'],
+			'user_colour' => $event['data']['user_colour'],
 		));
-
 	}
 }
