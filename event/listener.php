@@ -36,7 +36,7 @@ class listener implements EventSubscriberInterface
 	 * @param \phpbb\user						$user
 	 * @param \phpbb\auth\auth					$auth
 	 */
-	 
+
 	public function __construct(\phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \phpbb\auth\auth $auth)
 	{
 		$this->request = $request;
