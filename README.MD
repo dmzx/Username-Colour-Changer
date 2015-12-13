@@ -1,5 +1,7 @@
 # phpBB Username Colour Changer Extension
 
+[![Build Status](https://travis-ci.org/dmzx/Username-Colour-Changer.svg?branch=master)](https://travis-ci.org/dmzx/Username-Colour-Changer)
+
 ## Install
 
 1. Download the latest release and Unzip the downloaded release.

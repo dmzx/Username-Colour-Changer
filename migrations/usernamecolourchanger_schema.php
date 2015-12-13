@@ -11,7 +11,6 @@ namespace dmzx\usernamecolourchanger\migrations;
 
 class usernamecolourchanger_schema extends \phpbb\db\migration\migration
 {
-
 	public function update_data()
 	{
 		return array(
