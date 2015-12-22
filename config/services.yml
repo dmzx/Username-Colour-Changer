@@ -7,5 +7,6 @@ services:
             - @user
             - @auth
             - @dbal.conn
+            - @config
         tags:
             - { name: event.listener }
