@@ -159,7 +159,7 @@ class listener implements EventSubscriberInterface
 
 		if ($this->config['newest_user_id'] == $this->user->data['user_id'])
 		{
-			set_config('newest_user_colour', $user_colour, true);
+			$this->config->set('newest_user_colour', $user_colour, true);
 		}
 		return;
 	}
