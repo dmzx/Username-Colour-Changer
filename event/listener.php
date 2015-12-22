@@ -31,23 +31,26 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\db\driver\driver */
 	protected $db;
 
+	/** @var \phpbb\config\config */
+	protected $config;
+
 	/**
-	* Constructor
-	*
-	* @param \phpbb\request\request				$request
-	* @param \phpbb\template\template			$template
-	* @param \phpbb\user						$user
-	* @param \phpbb\auth\auth					$auth
-	* @param \phpbb\db\driver\driver			$db
-	*
-	*/
-	public function __construct(\phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\db\driver\driver_interface $db)
+	 * Constructor
+	 *
+	 * @param \phpbb\request\request			$request
+	 * @param \phpbb\template\template			$template
+	 * @param \phpbb\user						$user
+	 * @param \phpbb\auth\auth					$auth
+	 */
+
+	public function __construct(\phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\db\driver\driver_interface $db, \phpbb\config\config $config)
 	{
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
 		$this->auth = $auth;
 		$this->db = $db;
+		$this->config = $config;
 	}
 
 	/**
@@ -120,7 +123,7 @@ class listener implements EventSubscriberInterface
 	public function info_modify_sql_ary($event)
 	{
 		// user is changing their colour so update the topics table to reflect that
-		$this->update_topics_table($event['data']['user_colour']);
+		$this->update_tables($event['data']['user_colour']);
 
 		$event['sql_ary'] = array_merge($event['sql_ary'], array(
 			'user_colour' => $event['data']['user_colour'],
@@ -133,7 +136,7 @@ class listener implements EventSubscriberInterface
 	* @return null
 	* @access private
 	*/
-	private function update_topics_table($user_colour)
+	private function update_tables($user_colour)
 	{
 		$sql_ary = array(
 			'topic_last_poster_colour'	=> $user_colour,
@@ -153,6 +156,10 @@ class listener implements EventSubscriberInterface
 		$sql = 'UPDATE ' . FORUMS_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . ' WHERE forum_last_poster_id = ' . $this->user->data['user_id'];
 		$this->db->sql_query($sql);
 
+		if ($this->config['newest_user_id'] == $this->user->data['user_id'])
+		{
+			set_config('newest_user_colour', $user_colour, true);
+		}
 		return;
 	}
 }
