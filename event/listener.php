@@ -28,6 +28,9 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\auth\auth */
 	protected $auth;
 
+	/** @var \phpbb\db\driver\driver */
+	protected $db;
+
 	/**
 	 * Constructor
 	 *
@@ -37,12 +40,13 @@ class listener implements EventSubscriberInterface
 	 * @param \phpbb\auth\auth					$auth
 	 */
 
-	public function __construct(\phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \phpbb\auth\auth $auth)
+	public function __construct(\phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\db\driver\driver_interface $db)
 	{
 		$this->request = $request;
 		$this->template = $template;
 		$this->user = $user;
 		$this->auth = $auth;
+		$this->db = $db;
 	}
 
 	/**
@@ -114,8 +118,40 @@ class listener implements EventSubscriberInterface
 	*/
 	public function info_modify_sql_ary($event)
 	{
+		// user is changing their colour so update the topics table to reflect that
+		$this->update_topics_table($event['data']['user_colour']);
+
 		$event['sql_ary'] = array_merge($event['sql_ary'], array(
 			'user_colour' => $event['data']['user_colour'],
 		));
+	}
+
+	/**
+	* Update topics table
+	* @param object $user_colour The colour of the user chosen in the UCP
+	* @return null
+	* @access private
+	*/
+	private function update_topics_table($user_colour)
+	{
+		$sql_ary = array(
+			'topic_last_poster_colour'	=> $user_colour,
+		);
+		$sql = 'UPDATE ' . TOPICS_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . ' WHERE topic_last_poster_id = ' . $this->user->data['user_id'];
+		$this->db->sql_query($sql);
+
+		$sql_ary = array(
+			'topic_first_poster_colour'	=> $user_colour,
+		);
+		$sql = 'UPDATE ' . TOPICS_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . ' WHERE topic_poster = ' . $this->user->data['user_id'];
+		$this->db->sql_query($sql);
+
+		$sql_ary = array(
+			'forum_last_poster_colour'	=> $user_colour,
+		);
+		$sql = 'UPDATE ' . FORUMS_TABLE . ' SET ' . $this->db->sql_build_array('UPDATE', $sql_ary) . ' WHERE forum_last_poster_id = ' . $this->user->data['user_id'];
+		$this->db->sql_query($sql);
+
+		return;
 	}
 }
