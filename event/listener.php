@@ -35,14 +35,15 @@ class listener implements EventSubscriberInterface
 	protected $config;
 
 	/**
-	 * Constructor
-	 *
-	 * @param \phpbb\request\request			$request
-	 * @param \phpbb\template\template			$template
-	 * @param \phpbb\user						$user
-	 * @param \phpbb\auth\auth					$auth
-	 */
-
+	* Constructor
+	*
+	* @param \phpbb\request\request				$request
+	* @param \phpbb\template\template			$template
+	* @param \phpbb\user						$user
+	* @param \phpbb\auth\auth					$auth
+	* @param \phpbb\db\driver\driver			$db
+	* @param \phpbb\config\config				$config
+	*/
 	public function __construct(\phpbb\request\request $request, \phpbb\template\template $template, \phpbb\user $user, \phpbb\auth\auth $auth, \phpbb\db\driver\driver_interface $db, \phpbb\config\config $config)
 	{
 		$this->request = $request;
