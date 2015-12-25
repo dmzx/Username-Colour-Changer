@@ -70,7 +70,7 @@ class listener implements EventSubscriberInterface
 			'core.ucp_profile_info_modify_sql_ary'		=> 'info_modify_sql_ary',
 		);
 	}
-	
+
 	/**
 	* Add permissions
 	*
