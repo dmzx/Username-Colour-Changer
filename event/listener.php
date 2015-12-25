@@ -64,10 +64,25 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
+			'core.permissions'							=> 'add_permission',
 			'core.ucp_profile_modify_profile_info'		=> 'modify_profile_info',
 			'core.ucp_profile_validate_profile_info'	=> 'validate_profile_info',
 			'core.ucp_profile_info_modify_sql_ary'		=> 'info_modify_sql_ary',
 		);
+	}
+	
+	/**
+	* Add permissions
+	*
+	* @param object $event The event object
+	* @return null
+	* @access public
+	*/
+	public function add_permission($event)
+	{
+		$permissions = $event['permissions'];
+		$permissions['u_usernamecolourchanger_use'] = array('lang' => 'ACL_U_USERNAMECOLOURCHANGER_USE', 'cat' => 'misc');
+		$event['permissions'] = $permissions;
 	}
 
 	/**
