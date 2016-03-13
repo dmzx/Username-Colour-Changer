@@ -65,6 +65,8 @@ class listener implements EventSubscriberInterface
 	{
 		return array(
 			'core.permissions'							=> 'add_permission',
+			'core.acp_users_modify_profile'				=> 'acp_user_title_profile',
+			'core.acp_users_profile_modify_sql_ary'		=> 'info_modify_sql_ary',
 			'core.ucp_profile_modify_profile_info'		=> 'modify_profile_info',
 			'core.ucp_profile_validate_profile_info'	=> 'validate_profile_info',
 			'core.ucp_profile_info_modify_sql_ary'		=> 'info_modify_sql_ary',
@@ -83,6 +85,24 @@ class listener implements EventSubscriberInterface
 		$permissions = $event['permissions'];
 		$permissions['u_usernamecolourchanger_use'] = array('lang' => 'ACL_U_USERNAMECOLOURCHANGER_USE', 'cat' => 'misc');
 		$event['permissions'] = $permissions;
+	}
+
+	/**
+	 * Allow admins to change their colour
+	 *
+	 * @param object $event The event object
+	 * @return null
+	 * @access public
+	 */
+	public function acp_user_title_profile($event)
+	{
+		// Request the user option vars and add them to the data array
+		$event['data'] = array_merge($event['data'], array(
+			'user_colour'	=> $this->request->variable('user_colour', $event['user_row']['user_colour'], true),
+		));
+		$this->template->assign_vars(array(
+			'USER_COLOUR'			=> $event['data']['user_colour'],
+		));
 	}
 
 	/**
@@ -147,7 +167,7 @@ class listener implements EventSubscriberInterface
 	}
 
 	/**
-	* Update topics table
+	* Update update_tables
 	* @param object $user_colour The colour of the user chosen in the UCP
 	* @return null
 	* @access private

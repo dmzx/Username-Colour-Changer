@@ -31,4 +31,6 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'ACL_U_USERNAMECOLOURCHANGER_USE'	=> 'Can use Username Colour Change',
+	'USER_COLOUR_TITLE'					=> 'Username Colour Change',
+	'USER_COLOUR_EXPLAIN'				=> 'Can edit colour of username',
 ));
